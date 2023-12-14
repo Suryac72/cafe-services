@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "cafe",
+      "type": "com.cafe.java.cafebackend.services.env.EnvUtil",
+      "sourceType": "com.cafe.java.cafebackend.services.env.EnvUtil"
+    }
+  ],
+  "properties": [
+    {
+      "name": "cafe.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.cafe.java.cafebackend.services.env.EnvUtil"
+    }
+  ],
+  "hints": []
+}
