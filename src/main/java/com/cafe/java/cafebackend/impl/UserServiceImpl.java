@@ -1,7 +1,12 @@
 package com.cafe.java.cafebackend.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +20,7 @@ import org.springframework.validation.BindingResult;
 
 import com.cafe.java.cafebackend.constants.CafeConstants;
 import com.cafe.java.cafebackend.dto.LoginDTO;
+import com.cafe.java.cafebackend.mappers.UserProfileMapper;
 import com.cafe.java.cafebackend.models.UserProfile;
 import com.cafe.java.cafebackend.repo.UserRepository;
 import com.cafe.java.cafebackend.services.UserService;
@@ -22,6 +28,8 @@ import com.cafe.java.cafebackend.services.auth.CustomerDetailsUserService;
 import com.cafe.java.cafebackend.services.auth.JwtFilter;
 import com.cafe.java.cafebackend.services.auth.JwtUtil;
 import com.cafe.java.cafebackend.utils.CafeUtils;
+import com.cafe.java.cafebackend.utils.EmailUtils;
+import com.cafe.java.cafebackend.wrappers.UserWrapper;
 
 import jakarta.validation.Valid;
 
@@ -30,6 +38,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserProfileMapper mapper;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -42,6 +53,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtFilter jwtFilter;
+
+    @Autowired
+    EmailUtils emailUtils;
 
     @Override
     public ResponseEntity<String> signUp(@Valid UserProfile userProfile, BindingResult result) {
@@ -95,8 +112,61 @@ public class UserServiceImpl implements UserService {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.BAD_REQUEST);
+            return CafeUtils.getResponseEntity("Unauthorized Access", HttpStatus.UNAUTHORIZED);
         }
     }
 
+    @Override
+    public ResponseEntity<List<UserWrapper>> getAllUsers() {
+        try {
+            if (!jwtFilter.isAdmin()) {
+                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
+            }
+            List<UserProfile> users = userRepository.getAllUsers();
+            List<UserWrapper> result = mapper.userProfileMapper(users);
+            return new ResponseEntity<List<UserWrapper>>(result, HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public  ResponseEntity<String> updateUser(UUID userId,Map<String,String> requestMap) {
+        try {
+            if (requestMap.size() == 0) {
+                return CafeUtils.getResponseEntity(CafeConstants.INVALID_REQUEST_PAYLOAD,
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else if(jwtFilter.isAdmin()){
+                 Optional<UserProfile> user = userRepository.findById(userId);
+                 if(Objects.isNull(user)){
+                    return CafeUtils.getResponseEntity(CafeConstants.USER_NOT_FOUND,HttpStatus.NOT_FOUND);
+                 }
+                 else {
+                    userRepository.updateStatus(requestMap.get("status"),LocalDate.now().toString(),userId);
+                    sendMailToAllAdmin(requestMap.get("status"),user.get().getUserEmail(),userRepository.getAllAdmins());
+                    return CafeUtils.getResponseEntity(CafeConstants.USER_STATUS_UPDATED_SUCCESSFULLY, HttpStatus.OK);
+                 }
+                 
+            }
+            else {
+                return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZED_ACCESS, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void sendMailToAllAdmin(String status, String user, List<String> allAdmins) {
+        allAdmins.remove(jwtFilter.getCurrentUser());
+        if(status != null && status.equalsIgnoreCase("true")){
+            //send mail to admin that a user has been activated
+            emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),"Account Approved","USER:- " + user +"\n is approved by \nADMIN:- "+jwtFilter.getCurrentUser(),allAdmins);
+        }
+        else {
+              emailUtils.sendSimpleMessage(jwtFilter.getCurrentUser(),"Account Disabled","USER:- " + user +"\n is disabled by \nADMIN:- "+jwtFilter.getCurrentUser(),allAdmins);
+        }
+    }
 }

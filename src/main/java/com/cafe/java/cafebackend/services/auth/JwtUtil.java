@@ -22,7 +22,6 @@ public class JwtUtil {
     public JwtUtil(EnvUtil envUtility) {
         this.envUtility = envUtility;
         this.secret = envUtility.secret();
-        System.out.println(secret);
     }
    
 

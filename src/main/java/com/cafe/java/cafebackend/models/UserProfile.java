@@ -10,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -56,15 +57,6 @@ public class UserProfile implements Serializable {
     private String role;
     @Column(name = "user_status")
     private String status;
-
-    // @ManyToMany
-    // @JoinTable(
-    //     name = "user_credentials_user_profile_roles", 
-    //     joinColumns = { @JoinColumn(name = "user_id") }, 
-    //     inverseJoinColumns = { @JoinColumn(name = "role_id") }
-    // )
-    // private Set<Role> roles = new HashSet<>();
-
     @Column(name = "created_at")
     private String createdAt;
     @Column(name = "updated_at")

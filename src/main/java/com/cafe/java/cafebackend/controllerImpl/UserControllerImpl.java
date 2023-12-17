@@ -2,6 +2,8 @@ package com.cafe.java.cafebackend.controllerImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import com.cafe.java.cafebackend.utils.CafeUtils;
 import com.cafe.java.cafebackend.wrappers.UserWrapper;
 
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -49,11 +53,22 @@ public class UserControllerImpl implements UserController {
     @Override
     public ResponseEntity<List<UserWrapper>> getAllUser() {
         try {
-            
+            ResponseEntity<List<UserWrapper>> users = userService.getAllUsers();
+            return users;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<List<UserWrapper>>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> update(@RequestParam(name = "userId") UUID userId,Map<String, String> requestMap) {
+      try {
+        return userService.updateUser(userId,requestMap);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
