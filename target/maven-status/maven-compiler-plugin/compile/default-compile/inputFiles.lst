@@ -1,25 +1,28 @@
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\repo\CategoryRepository.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\constants\CafeConstants.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\repo\UserRepository.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\utils\CafeUtils.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\models\Role.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\controllerImpl\UserControllerImpl.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\services\auth\CustomerDetailsUserService.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\constants\UserConstants.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\constants\CategoryConstants.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\impl\UserServiceImpl.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\services\UserService.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\services\auth\JwtUtil.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\services\env\EnvUtil.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\validators\CategoryValidator.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\models\UserProfile.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\CafeBackendApplication.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\dto\LoginDTO.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\validators\ValidationHandler.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\wrappers\UserWrapper.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\config\SecurityConfig.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\controller\UserController.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\models\Product.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\models\Category.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\repo\RoleRepository.java
-C:\Users\Surya Chaudhary\IdeaProjects\cafe-services\src\main\java\com\cafe\java\cafebackend\services\auth\JwtFilter.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\validators\CategoryValidator.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\wrappers\UserWrapper.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\constants\CafeConstants.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\models\Role.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\repo\RoleRepository.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\CafeBackendApplication.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\config\SecurityConfig.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\repo\UserRepository.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\models\Category.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\controller\UserController.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\controller\Patch.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\repo\CategoryRepository.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\services\UserService.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\utils\CafeUtils.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\validators\ValidationHandler.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\models\UserProfile.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\constants\UserConstants.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\services\auth\JwtUtil.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\mappers\UserProfileMapper.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\dto\LoginDTO.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\services\auth\CustomerDetailsUserService.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\impl\UserServiceImpl.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\models\Product.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\services\auth\JwtFilter.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\controllerImpl\UserControllerImpl.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\constants\CategoryConstants.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\services\env\EnvUtil.java
+E:\PROJECT\ecommerce-backend\src\main\java\com\cafe\java\cafebackend\utils\EmailUtils.java
