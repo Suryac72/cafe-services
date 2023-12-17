@@ -11,6 +11,6 @@ RUN mvn -f /home/cafe-services/pom.xml clean package
 # Package stage
 #
 FROM eclipse-temurin:17-jdk-alpine
-COPY target/*.jar ecommerce-backend.jar
+COPY --from=build /home/cafe-services/target/ecommerce-backend-0.0.1-SNAPSHOT.jar /usr/local/lib/ecommerce-backend.jar
 ENTRYPOINT ["java","-jar","/ecommerce-backend.jar"]
 EXPOSE 8080
