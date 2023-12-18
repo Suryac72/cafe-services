@@ -35,4 +35,13 @@ public interface UserController {
 
     @PatchMapping(path="/update")
     public ResponseEntity<String> update(@RequestParam(name = "userId") UUID userId ,@RequestBody(required = true) Map<String,String> requestMap);
+
+    @GetMapping(path="/checkToken")
+    public ResponseEntity<String> checkToken();
+
+    @PatchMapping(path="/changePassword")
+    public ResponseEntity<String> changePassword(@RequestBody Map<String,String> requestMap);
+
+    @PostMapping(path="/forgotPassword")
+    public  ResponseEntity<String> forgotPassword(@RequestBody Map<String,String> requestMap);
 }

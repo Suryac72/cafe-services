@@ -15,7 +15,7 @@ import com.cafe.java.cafebackend.constants.CafeConstants;
 import com.cafe.java.cafebackend.controller.UserController;
 import com.cafe.java.cafebackend.dto.LoginDTO;
 import com.cafe.java.cafebackend.models.UserProfile;
-import com.cafe.java.cafebackend.services.UserService;
+import com.cafe.java.cafebackend.services.user.UserService;
 import com.cafe.java.cafebackend.utils.CafeUtils;
 import com.cafe.java.cafebackend.wrappers.UserWrapper;
 
@@ -68,6 +68,38 @@ public class UserControllerImpl implements UserController {
       } catch (Exception e) {
         e.printStackTrace();
       }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> checkToken() {
+        try{
+            return userService.checkToken();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try{
+            return userService.changePassword(requestMap);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
+        try {
+            return userService.forgotPassword(requestMap);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
