@@ -25,9 +25,9 @@ public class CategoryControllerImpl implements CategoryController {
     private CategoryService categoryService;
 
     @Override
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<Category>> getAllCategories(@RequestParam(name="filterValue",required = false) String filterValue) {
         try {
-            return categoryService.getAllCategories();
+            return categoryService.getAllCategories(filterValue);
         }catch (Exception e){
             e.printStackTrace();
         }

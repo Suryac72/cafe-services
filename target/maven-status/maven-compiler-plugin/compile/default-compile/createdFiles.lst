@@ -1,7 +1,6 @@
 com\cafe\java\cafebackend\validators\ValidationHandler.class
 com\cafe\java\cafebackend\services\user\UserService.class
 com\cafe\java\cafebackend\models\UserProfile.class
-com\cafe\java\cafebackend\repo\RoleRepository.class
 com\cafe\java\cafebackend\CafeBackendApplication.class
 com\cafe\java\cafebackend\constants\CategoryConstants.class
 META-INF\spring-configuration-metadata.json
@@ -14,7 +13,6 @@ com\cafe\java\cafebackend\utils\CafeUtils.class
 com\cafe\java\cafebackend\impl\category\CategoryServiceImpl.class
 com\cafe\java\cafebackend\constants\CafeConstants.class
 com\cafe\java\cafebackend\constants\UserConstants$UserRole.class
-com\cafe\java\cafebackend\models\Role.class
 com\cafe\java\cafebackend\controllerImpl\UserControllerImpl.class
 com\cafe\java\cafebackend\config\SecurityConfig.class
 com\cafe\java\cafebackend\dto\LoginDTO.class

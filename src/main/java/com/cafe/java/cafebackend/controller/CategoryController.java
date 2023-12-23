@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequestMapping(path="/category")
 public interface CategoryController {
     @GetMapping(path = "/get")
-    public ResponseEntity<List<Category>> getAllCategories();
+    public ResponseEntity<List<Category>> getAllCategories(@RequestParam(name="filterValue",required = false) String filterValue);
 
     @GetMapping(path="/get/{categoryId}")
     public ResponseEntity<Category> getCategory(@PathVariable("categoryId") UUID categoryId);

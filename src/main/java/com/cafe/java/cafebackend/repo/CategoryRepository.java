@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface CategoryRepository extends JpaRepository<Category,UUID>{
 
-    @Query(value = "SELECT * FROM category c", nativeQuery = true)
+    @Query(value = "SELECT * FROM category c where c.category_id in (select p.category_fk from product p where p.product_status='true')", nativeQuery = true)
     List<Category> getAllCategories();
 
     @Query(value = "SELECT * FROM category WHERE category_title = :title", nativeQuery = true)

@@ -6,6 +6,7 @@ import com.cafe.java.cafebackend.repo.CategoryRepository;
 import com.cafe.java.cafebackend.services.auth.JwtFilter;
 import com.cafe.java.cafebackend.services.category.CategoryService;
 import com.cafe.java.cafebackend.utils.CafeUtils;
+import com.google.common.base.Strings;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,17 @@ public class CategoryServiceImpl implements CategoryService {
     JwtFilter jwtFilter;
 
     @Override
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<Category>> getAllCategories(String filterValue) {
         try{
-            List<Category> categories = categoryRepository.getAllCategories();
+            if(!Strings.isNullOrEmpty(filterValue) && filterValue.equalsIgnoreCase("true")){
+                return new ResponseEntity<List<Category>>(categoryRepository.getAllCategories(),HttpStatus.OK);
+            }
+            List<Category> categories = categoryRepository.findAll();
             return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return new ResponseEntity<List<Category>>(new ArrayList<>(), HttpStatus.OK);
+        return new ResponseEntity<List<Category>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -51,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
            else {
                Optional<Category> foundCategory = categoryRepository.findByCategoryTitle(category.getCategoryTitle());
                if(foundCategory.get().getCategoryId() != null){
-                   return CafeUtils.getResponseEntity(CafeConstants.CATEGORY_ALREADY_PRESENT,HttpStatus.OK);
+                   return CafeUtils.getResponseEntity(CafeConstants.CATEGORY_ALREADY_PRESENT,HttpStatus.BAD_REQUEST);
                }
                categoryRepository.save(category);
                return CafeUtils.getResponseEntity(CafeConstants.CATEGORY_ADDED_SUCCESSFULLY,HttpStatus.OK);

@@ -31,4 +31,24 @@ public class CafeConstants {
     public static final String CATEGORY_DELETED_SUCCESSFULLY="Category deleted successfully";
 
     public static final String CATEGORY_ALREADY_PRESENT="Category already present";
+
+    //Product Constants
+
+    public static final String PRODUCT_ADDED_SUCCESSFULLY="Product added Successfully";
+    public static final String PRODUCT_NOT_FOUND="Product not found";
+
+    public static final String PRODUCT_UPDATED_SUCCESSFULLY="Product updated successfully";
+    public static final String PRODUCT_DELETED_SUCCESSFULLY="Product deleted successfully";
+
+    public static final String PRODUCT_ALREADY_PRESENT="Product already present";
+
+    public static final String PRODUCT_NAME_CANNOT_BE_EMPTY="Product name cannot be empty";
+    public static final String PRODUCT_DESCRIPTION_CANNOT_BE_EMPTY="Product description cannot be empty";
+    public static final String PRODUCT_PRICE_POSITIVE="Product price must be a positive number";
+    public static final String PRODUCT_QUANTITY_POSITIVE="Product quantity must be a positive integer";
+    public static final String PRODUCT_PIC_CANNOT_BE_EMPTY="Product pic cannot be empty";
+    public static final String PRODUCT_STATUS_CANNOT_BE_EMPTY="Product status cannot be empty";
+    public static final String CATEGORY_ID_CANNOT_BE_EMPTY="Category id cannot be empty";
+    public static final String PRODUCT_AVAILABILITY_CANNOT_BE_EMPTY="Product availability cannot be empty";
+
 }

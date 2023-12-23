@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public interface CategoryService {
-    ResponseEntity<List<Category>> getAllCategories();
+    ResponseEntity<List<Category>> getAllCategories(String filterValue);
 
     ResponseEntity<String> addCategory(Category category, BindingResult result);
 
