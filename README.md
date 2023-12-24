@@ -35,6 +35,11 @@ This repository contains the Spring Boot services for a Cafe Management System. 
 - **Maven:** Build and project management tool.
 - **Render:** For Service Deployment
 - **Docker:** For Adding configurations for deployment
+
+## Links 
+
+- **API Docs Link:** https://cafe-services.onrender.com/swagger-ui/index.html
+- **Note:** This API requires creds to Access so use the following creds ----> userName: suryafeb0802@gmail.com, password : Surya@123
   
 ## Getting Started
 
