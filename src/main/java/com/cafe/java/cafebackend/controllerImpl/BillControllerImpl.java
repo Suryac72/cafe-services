@@ -5,6 +5,7 @@ import com.cafe.java.cafebackend.controller.BillController;
 import com.cafe.java.cafebackend.models.Bill;
 import com.cafe.java.cafebackend.services.bill.BillService;
 import com.cafe.java.cafebackend.utils.CafeUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
+@Tag(name = "Bill Services", description = "Bill Management APIs of Cafe-Services")
 public class BillControllerImpl implements BillController {
 
     @Autowired
@@ -42,12 +45,22 @@ public class BillControllerImpl implements BillController {
     }
 
     @Override
-    public ResponseEntity<byte[]> getPdf(Map<String, Object> requestMap) {
+    public ResponseEntity<byte[]> getPdf(Bill requestMap,BindingResult result) {
         try{
-            return billService.getPdf(requestMap);
+            return billService.getPdf(requestMap,result);
         }catch (Exception e){
             e.printStackTrace();
         }
         return new ResponseEntity<byte[]>(new byte[10],HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteBill(UUID billId) {
+        try{
+            return billService.deleteBill(billId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<String>(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

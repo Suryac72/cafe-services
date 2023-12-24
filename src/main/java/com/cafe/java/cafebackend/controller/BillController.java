@@ -4,13 +4,11 @@ import com.cafe.java.cafebackend.models.Bill;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RequestMapping(path="/bill")
 public interface BillController {
@@ -22,5 +20,8 @@ public interface BillController {
     ResponseEntity<List<Bill>> getBills();
 
     @PostMapping(path="/getPdf")
-    ResponseEntity<byte[]> getPdf(@RequestBody Map<String,Object> requestMap);
+    ResponseEntity<byte[]> getPdf(@Valid @RequestBody Bill requestMap,BindingResult result);
+
+    @DeleteMapping(path="/delete/{billId}")
+    ResponseEntity<String>  deleteBill(@PathVariable UUID billId);
 }

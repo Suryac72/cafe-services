@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository<UserProfile, UUID> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE user_credentials SET user_status = :status, updated_at = :date WHERE user_id = :userId", nativeQuery = true)
-    Integer updateStatus(@Param("status") String status,@Param("date") String date, @Param("userId") UUID userId);
+    @Query(value = "UPDATE user_credentials SET user_status = :status, updated_at = :date WHERE user_email = :userId", nativeQuery = true)
+    Integer updateStatus(@Param("status") String status,@Param("date") String date, @Param("userId") String userId);
 }

@@ -34,7 +34,7 @@ public interface UserController {
     public ResponseEntity<List<UserWrapper>> getAllUser();
 
     @PatchMapping(path="/update")
-    public ResponseEntity<String> update(@RequestParam(name = "userId") UUID userId ,@RequestBody(required = true) Map<String,String> requestMap);
+    public ResponseEntity<String> update(@RequestParam(name = "userId") String userId ,@RequestBody(required = true) Map<String,String> requestMap);
 
     @GetMapping(path="/checkToken")
     public ResponseEntity<String> checkToken();

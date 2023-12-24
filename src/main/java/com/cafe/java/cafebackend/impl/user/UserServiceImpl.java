@@ -133,20 +133,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  ResponseEntity<String> updateUser(UUID userId,Map<String,String> requestMap) {
+    public  ResponseEntity<String> updateUser(String userId,Map<String,String> requestMap) {
         try {
             if (requestMap.size() == 0) {
                 return CafeUtils.getResponseEntity(CafeConstants.INVALID_REQUEST_PAYLOAD,
                         HttpStatus.INTERNAL_SERVER_ERROR);
             }
             else if(jwtFilter.isAdmin()){
-                 Optional<UserProfile> user = userRepository.findById(userId);
+                 UserProfile user = userRepository.findByUserEmail(userId);
                  if(Objects.isNull(user)){
                     return CafeUtils.getResponseEntity(CafeConstants.USER_NOT_FOUND,HttpStatus.NOT_FOUND);
                  }
                  else {
                     userRepository.updateStatus(requestMap.get("status"),LocalDate.now().toString(),userId);
-                    sendMailToAllAdmin(requestMap.get("status"),user.get().getUserEmail(),userRepository.getAllAdmins());
+                    sendMailToAllAdmin(requestMap.get("status"),user.getUserEmail(),userRepository.getAllAdmins());
                     return CafeUtils.getResponseEntity(CafeConstants.USER_STATUS_UPDATED_SUCCESSFULLY, HttpStatus.OK);
                  }
                  

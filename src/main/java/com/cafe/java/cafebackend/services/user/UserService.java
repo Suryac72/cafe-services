@@ -21,7 +21,7 @@ public interface UserService {
 
     ResponseEntity<List<UserWrapper>> getAllUsers();
 
-    ResponseEntity<String> updateUser(UUID userId,Map<String,String> requestMap);
+    ResponseEntity<String> updateUser(String userId,Map<String,String> requestMap);
 
     ResponseEntity<String> checkToken();
 

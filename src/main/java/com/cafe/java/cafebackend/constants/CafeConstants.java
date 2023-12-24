@@ -54,7 +54,8 @@ public class CafeConstants {
 
     //Bill Constants
 
-    public static final String BILL_GENERATED_SUCCESSFULLY="Bill Generated Successfully";
-
+    public static final String BILL_GENERATED_SUCCESSFULLY="Bill generated successfully";
+    public static final String BILL_NOT_FOUND = "Bill not found";
+    public static final String BILL_DELETED_SUCCESSFULLY="Bill deleted successfully";
 
 }

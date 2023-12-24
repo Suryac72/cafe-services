@@ -1,6 +1,7 @@
 package com.cafe.java.cafebackend.impl.bill;
 
 import com.cafe.java.cafebackend.constants.CafeConstants;
+import com.cafe.java.cafebackend.mappers.BillMapper;
 import com.cafe.java.cafebackend.models.Bill;
 import com.cafe.java.cafebackend.repo.BillRepository;
 import com.cafe.java.cafebackend.services.auth.JwtFilter;
@@ -13,6 +14,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import javax.print.Doc;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
@@ -38,8 +40,12 @@ public class BillServiceImpl implements BillService {
     @Autowired
     JwtFilter jwtFilter;
 
+    @Autowired
+    BillMapper billMapper;
+
     @Override
     public ResponseEntity<String> generateReport(Bill bill, BindingResult result) {
+        log.info("Inside Generate Report : {}",bill.toString());
         try {
             String fileName;
             if(Objects.isNull(bill)){
@@ -111,17 +117,67 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public ResponseEntity<byte[]> getPdf(Map<String, Object> requestMap) {
+    public ResponseEntity<byte[]> getPdf(Bill requestMap,BindingResult result) {
+        log.info("Inside getPdf : requestMap {}",requestMap.toString());
         try {
             byte[] byteArray = new byte[0];
-            //todo
-            if(!requestMap.containsKey("billUUID")){
-
+            if(requestMap.getBillUUID() == null && !result.hasErrors()){
+                return new ResponseEntity<>(byteArray,HttpStatus.BAD_REQUEST);
+            }
+            String userHome = System.getProperty("user.home");
+            String downloadsFolder = userHome + System.getProperty("file.separator") + "Downloads";
+            String fileName = downloadsFolder + System.getProperty("file.separator") + requestMap.getBillUUID() + ".pdf";
+            if(CafeUtils.isFileExists(fileName)){
+                byteArray = getByteArray(fileName);
+                return new ResponseEntity<>(byteArray,HttpStatus.OK);
+            }else {
+                requestMap.setCreatedAt(LocalDate.now().toString());
+                requestMap.setCreatedBy(jwtFilter.getCurrentUser());
+                generateReport(requestMap,result);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         return new ResponseEntity<byte[]>(new byte[10],HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteBill(UUID billId) {
+        try{
+            Optional<Bill> foundBill = billRepository.findById(billId);
+            if(foundBill.isEmpty()){
+                return CafeUtils.getResponseEntity(CafeConstants.BILL_NOT_FOUND,HttpStatus.BAD_REQUEST);
+            }
+            else {
+                billRepository.deleteById(billId);
+                return CafeUtils.getResponseEntity(CafeConstants.BILL_DELETED_SUCCESSFULLY,HttpStatus.OK);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<String>(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    /**
+     * Helper Methods for Impl
+     * @param requestMap
+     * @return
+     */
+    private boolean validateRequestMap(Map<String,Object> requestMap){
+        return requestMap.containsKey("billUUID") && requestMap.containsKey("customerName")
+                && requestMap.containsKey("customerEmail") && requestMap.containsKey("contactNumber")
+                && requestMap.containsKey("paymentMethod") && requestMap.containsKey("totalAmount")
+                && requestMap.containsKey("productDetails");
+    }
+
+    private byte[] getByteArray(String fileName) throws Exception {
+        log.info("Inside getByteArray : {}",fileName);
+        File initialFile = new File(fileName);
+        InputStream targetStream = new FileInputStream(initialFile);
+        byte[] byteArray = IOUtils.toByteArray(targetStream);
+        targetStream.close();
+        return byteArray;
     }
 
     private String convertMapToJsonString(String productDetails) {
@@ -178,8 +234,7 @@ public class BillServiceImpl implements BillService {
                 dataFont.setStyle(Font.BOLD);
                 return dataFont;
             default:
-        }
                 return new Font();
-
+        }
     }
 }

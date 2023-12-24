@@ -6,6 +6,7 @@ import com.cafe.java.cafebackend.dto.ProductDTO;
 import com.cafe.java.cafebackend.models.Product;
 import com.cafe.java.cafebackend.services.product.ProductService;
 import com.cafe.java.cafebackend.utils.CafeUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
+@Tag(name = "Product Services", description = "Product APIs of Cafe-Services")
 public class ProductControllerImpl implements ProductController {
 
     @Autowired

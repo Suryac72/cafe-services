@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe.java.cafebackend.constants.CafeConstants;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 
 @RestController
+@Tag(name = "User Services", description = "User/Admin APIs of Cafe-Services")
 public class UserControllerImpl implements UserController {
 
     @Autowired
@@ -62,7 +65,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<String> update(@RequestParam(name = "userId") UUID userId,Map<String, String> requestMap) {
+    public ResponseEntity<String> update(@PathVariable(name = "categoryId") String userId, Map<String, String> requestMap) {
       try {
         return userService.updateUser(userId,requestMap);
       } catch (Exception e) {
