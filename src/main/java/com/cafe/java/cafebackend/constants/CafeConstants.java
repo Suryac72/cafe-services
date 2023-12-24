@@ -51,4 +51,10 @@ public class CafeConstants {
     public static final String CATEGORY_ID_CANNOT_BE_EMPTY="Category id cannot be empty";
     public static final String PRODUCT_AVAILABILITY_CANNOT_BE_EMPTY="Product availability cannot be empty";
 
+
+    //Bill Constants
+
+    public static final String BILL_GENERATED_SUCCESSFULLY="Bill Generated Successfully";
+
+
 }

@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.URL;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +24,9 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "bill_id")
     private UUID billId;
+
+    @Column(name = "bill_uuid")
+    private String billUUID;
 
     @NotBlank(message = "Customer name cannot be blank")
     @Size(max = 255, message = "Customer name must be less than or equal to 255 characters")
@@ -46,7 +51,8 @@ public class Bill {
     private String totalAmount;
 
     @NotNull(message = "Product details cannot be null")
-    @Column(name="product_details",columnDefinition = "json")
+    @Column(name = "product_details", columnDefinition = "json")
+    @ColumnTransformer(write = "?::json")
     private String productDetails;
 
     @Column(name="created_by")
@@ -60,4 +66,6 @@ public class Bill {
 
     @Column(name="updated_at")
     private String updatedAt;
+
+    private String isGenerated;
 }
