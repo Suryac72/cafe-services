@@ -3,7 +3,7 @@ HELP.md
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-/env.properties
+/src/env.properties
 .env
 ### STS ###
 .apt_generated
