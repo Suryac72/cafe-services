@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
            }
            else {
                Optional<Category> foundCategory = categoryRepository.findByCategoryTitle(category.getCategoryTitle());
-               if(foundCategory.get().getCategoryId() != null){
+               if(!foundCategory.isEmpty()){
                    return CafeUtils.getResponseEntity(CafeConstants.CATEGORY_ALREADY_PRESENT,HttpStatus.BAD_REQUEST);
                }
                categoryRepository.save(category);

@@ -6,22 +6,17 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.cafe.java.cafebackend.dto.LoginDTO;
 import com.cafe.java.cafebackend.models.UserProfile;
 import com.cafe.java.cafebackend.wrappers.UserWrapper;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 
 
-
 @RequestMapping(path="/user")
+@CrossOrigin(origins = "http://localhost:5173")
 public interface UserController {
 
     @PostMapping(path = "/signup")

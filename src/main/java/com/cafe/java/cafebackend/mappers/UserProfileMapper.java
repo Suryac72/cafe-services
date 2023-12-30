@@ -13,7 +13,7 @@ public class UserProfileMapper {
     public  List<UserWrapper> userProfileMapper(List<UserProfile> userProfile){
         List<UserWrapper> result = new ArrayList<>();
         for (UserProfile user : userProfile) {
-            result.add(new UserWrapper(user.getUserId(), user.getUserName(), user.getUserEmail(), user.getUserPhoneNo(), user.getStatus()));
+            result.add(new UserWrapper(user.getUserId(), user.getUserName(), user.getUserEmail(), user.getUserPhoneNo(), user.getStatus(),user.getRole()));
             }
             return result;
     }

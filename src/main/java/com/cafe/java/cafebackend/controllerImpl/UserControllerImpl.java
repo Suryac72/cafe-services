@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cafe.java.cafebackend.constants.CafeConstants;
 import com.cafe.java.cafebackend.controller.UserController;
@@ -21,12 +20,10 @@ import com.cafe.java.cafebackend.services.user.UserService;
 import com.cafe.java.cafebackend.utils.CafeUtils;
 import com.cafe.java.cafebackend.wrappers.UserWrapper;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "User Services", description = "User/Admin APIs of Cafe-Services")
 public class UserControllerImpl implements UserController {
 

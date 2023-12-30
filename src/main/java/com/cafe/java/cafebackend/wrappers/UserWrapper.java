@@ -15,4 +15,5 @@ public class UserWrapper {
     private String userEmail;
     private String userPhoneNo;
     private String status;
+    private String role;
 }
