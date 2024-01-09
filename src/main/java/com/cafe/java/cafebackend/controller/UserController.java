@@ -16,7 +16,7 @@ import jakarta.validation.Valid;
 
 
 @RequestMapping(path="/user")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://cafe-management-system-ui.vercel.app/")
 public interface UserController {
 
     @PostMapping(path = "/signup")
