@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
-                .allowedOrigins("http://localhost:5173");  // Replace with your React app's URL
+                .allowedOrigins("https://cafe-management-system-ui.vercel.app/");  // Replace with your React app's URL
     }
 
     @Bean
@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:5173");  // Replace with your React app's URL
+        config.addAllowedOrigin("https://cafe-management-system-ui.vercel.app/");  // Replace with your React app's URL
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
