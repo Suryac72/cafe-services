@@ -19,4 +19,5 @@ public class CafeBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(CafeBackendApplication.class, args);
     }
+
 }

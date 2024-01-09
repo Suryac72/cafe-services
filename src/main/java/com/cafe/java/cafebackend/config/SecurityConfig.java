@@ -1,6 +1,7 @@
 package com.cafe.java.cafebackend.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.cafe.java.cafebackend.services.auth.CustomerDetailsUserService;
 import com.cafe.java.cafebackend.services.auth.JwtFilter;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.AlgorithmParameterSpec;
+
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +40,12 @@ public class SecurityConfig {
 
     @Autowired
     JwtFilter jwtFilter;
+
+    @Value("${cafe.encryptionKey}")
+    private String encryptionKey;
+
+    @Value("${cafe.encryptionIv}")
+    private String encryptionIv;
 
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -65,4 +81,28 @@ public class SecurityConfig {
 
     }
 
+    @Bean
+    public AlgorithmParameterSpec makeIv() {
+        try {
+            return new IvParameterSpec(encryptionIv.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Bean
+    public Key makeKey() {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] key = md.digest(encryptionKey.getBytes("UTF-8"));
+            return new SecretKeySpec(key, "AES");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

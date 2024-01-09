@@ -194,7 +194,6 @@ public class BillServiceImpl implements BillService {
         table.addCell(data.get("category").toString());
         table.addCell(data.get("quantity").toString());
         table.addCell(data.get("price").toString());
-        table.addCell(data.get("name").toString());
         table.addCell(data.get("total").toString());
     }
 

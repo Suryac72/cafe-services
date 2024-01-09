@@ -1,13 +1,12 @@
 package com.cafe.java.cafebackend.impl.user;
 
+import java.security.Key;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
+import com.cafe.java.cafebackend.impl.password.EncryptionService;
+import com.cafe.java.cafebackend.models.Password;
+import com.cafe.java.cafebackend.repo.PasswordRepository;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +32,10 @@ import com.cafe.java.cafebackend.utils.EmailUtils;
 import com.cafe.java.cafebackend.wrappers.UserWrapper;
 
 import jakarta.validation.Valid;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -61,10 +64,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     EmailUtils emailUtils;
 
+    @Autowired
+    EncryptionService encryptionService;
+
+    @Autowired
+    PasswordRepository passwordRepository;
+
     @Override
     public ResponseEntity<String> signUp(@Valid UserProfile userProfile, BindingResult result) {
 
         try {
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+            keyGenerator.init(128); // or 192 or 256 bits
+            SecretKey generatedKey = keyGenerator.generateKey();
+
+            System.out.println("Generated Key Algorithm: " + generatedKey.getAlgorithm());
+            System.out.println("Generated Key Size (bits): " + keyGenerator.generateKey());
             if (userProfile.getUserName() == null && userProfile.getUserEmail() == null
                     && userProfile.getPassword() == null && userProfile.getUserPhoneNo() == null) {
                 return CafeUtils.getResponseEntity(CafeConstants.INVALID_REQUEST_PAYLOAD,
@@ -75,6 +90,11 @@ public class UserServiceImpl implements UserService {
             }
             UserProfile user = this.userRepository.findByUserEmail(userProfile.getUserEmail());
             if (Objects.isNull(user)) {
+                Password password = new Password();
+                password.setUserHashedPassword(passwordEncoder.encode(userProfile.getPassword()));
+                password.setUserEncryptedPassword(encryptionService.encrypt(userProfile.getPassword()));
+                password.setUserEmail(userProfile.getUserEmail());
+                passwordRepository.save(password);
                 userProfile.setPassword(passwordEncoder.encode(userProfile.getPassword()));
                 userProfile.setCreatedAt(LocalDate.now().toString());
                 userProfile.setRole("USER");
@@ -186,8 +206,13 @@ public class UserServiceImpl implements UserService {
                     return CafeUtils.getResponseEntity(CafeConstants.OLD_PASSWORD_CANNOT_BE_SAME_AS_NEW_ONE,HttpStatus.BAD_REQUEST);
                 }
                 if(passwordEncoder.matches(oldPassword,user.getPassword())){
+                    Password password = new Password();
+                    password.setUserHashedPassword(passwordEncoder.encode(newPassword));
+                    password.setUserEncryptedPassword(encryptionService.encrypt(newPassword));
+                    password.setUserEmail(user.getUserEmail());
                     user.setPassword(passwordEncoder.encode(requestMap.get("newPassword")));
                     userRepository.save(user);
+                    passwordRepository.save(password);
                     return CafeUtils.getResponseEntity(CafeConstants.PASSWORD_UPDATED_SUCCESSFULLY,HttpStatus.OK);
                 }
                 return CafeUtils.getResponseEntity(CafeConstants.INCORRECT_OLD_PASSWORD,HttpStatus.BAD_REQUEST);
@@ -203,8 +228,10 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
         try {
             UserProfile user = userRepository.findByUserEmail(requestMap.get("userEmail"));
+            Password password = passwordRepository.findPasswordByUserEmail(requestMap.get("userEmail"));
+            String credPassword = encryptionService.decrypt(password.getUserEncryptedPassword());
             if(!Objects.isNull(user) && !Strings.isNullOrEmpty(user.getUserEmail())){
-                emailUtils.forgotMail(user.getUserEmail(),"Credentials by Cafe Services",user.getPassword());
+                emailUtils.forgotMail(user.getUserEmail(),"Credentials by Cafe Services",credPassword);
             }
             return CafeUtils.getResponseEntity(CafeConstants.CHECK_YOUR_MAIL_FOR_CREDENTIALS,HttpStatus.OK);
         }catch (Exception e){

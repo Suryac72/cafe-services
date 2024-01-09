@@ -4,6 +4,10 @@ import com.cafe.java.cafebackend.dto.ProductDTO;
 import com.cafe.java.cafebackend.models.Category;
 import com.cafe.java.cafebackend.models.Product;
 import com.cafe.java.cafebackend.utils.ProductUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
@@ -36,8 +40,27 @@ public class ProductMapper {
             String methodName = "set" + ProductUtils.toTitleCase(fieldName);
             String value = entry.getValue();
             try {
-                Method method = Product.class.getMethod(methodName, String.class);
-                method.invoke(product.get(), value);
+                if(methodName.contains("Category")){
+                    System.out.println(methodName);
+                    Method categoryMethod = Product.class.getMethod(methodName, Category.class);
+                    Gson gson= new Gson();
+                    ObjectMapper mapper = new ObjectMapper();
+                    JsonNode rootNode = mapper.readTree(value);
+                    String categoryId = rootNode.get("categoryId").asText();
+                    String categoryTitle = rootNode.get("categoryTitle").asText();
+                    String categoryDescription = rootNode.get("categoryDescription").asText();
+                    Category category = new Category();
+                    category.setCategoryId(UUID.fromString(categoryId));
+                    category.setCategoryTitle(categoryTitle);
+                    category.setCategoryDescription(categoryDescription);
+                    System.out.println(category.toString());
+                    product.get().setCategory(category);
+                }
+                else{
+                    Method method = Product.class.getMethod(methodName, String.class);
+                    method.invoke(product.get(), value);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -85,5 +108,10 @@ public class ProductMapper {
             productList.add(productDTO);
         }
         return productList;
+    }
+
+    private Category convertJsonNodeToCategory(JsonNode rootNode) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.treeToValue(rootNode, Category.class);
     }
 }
