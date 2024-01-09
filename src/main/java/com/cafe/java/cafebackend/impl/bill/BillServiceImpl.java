@@ -66,8 +66,7 @@ public class BillServiceImpl implements BillService {
                         + "Email:" + bill.getCustomerEmail() + "\n" + "Payment Method:" + bill.getPaymentMethod();
 
                 Document document = new Document();
-                String userHome = System.getProperty("user.home");
-                String downloadsFolder = userHome + System.getProperty("file.separator") + "Downloads";
+                String downloadsFolder = System.getProperty("file.separator") + "Downloads";
                 PdfWriter.getInstance(document,new FileOutputStream(downloadsFolder + System.getProperty("file.separator") + fileName + ".pdf"));
                 document.open();
                 setRectangleInPdf(document);
