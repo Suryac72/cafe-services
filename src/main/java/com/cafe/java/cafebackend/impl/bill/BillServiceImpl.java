@@ -124,8 +124,7 @@ public class BillServiceImpl implements BillService {
             if(requestMap.getBillUUID() == null && !result.hasErrors()){
                 return new ResponseEntity<>(byteArray,HttpStatus.BAD_REQUEST);
             }
-            String userHome = System.getProperty("user.home");
-            String downloadsFolder = userHome + System.getProperty("file.separator") + "Downloads";
+            String downloadsFolder = System.getProperty("file.separator") + "Downloads";
             String fileName = downloadsFolder + System.getProperty("file.separator") + requestMap.getBillUUID() + ".pdf";
             if(CafeUtils.isFileExists(fileName)){
                 byteArray = getByteArray(fileName);

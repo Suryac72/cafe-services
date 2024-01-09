@@ -1,0 +1,5 @@
+# Created at 2024-01-09T22:35:38.448
+Boot Manifest-JAR contains absolute paths in classpath 'E:\PROJECT\Cafe Management System\cafe-services\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
